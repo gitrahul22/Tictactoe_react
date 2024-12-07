@@ -19,6 +19,8 @@ let box8=useRef(null);
 let box9=useRef(null);
 
 let box_array=[box1,box2,box3,box4,box5,box6,box7,box8,box9];
+let [cnt,setCnt] =useState(0);
+
   let [count,setCount] =useState(0);
   let[lock,setLock]=useState(false);
   let titleRef=useRef(null);
@@ -34,13 +36,22 @@ let box_array=[box1,box2,box3,box4,box5,box6,box7,box8,box9];
         e.target.innerHTML=`<img src='${circ}'>`;
         setCount(++count);
         data[num]="o";
+        setCnt(cnt+1);
       }else{
         e.target.innerHTML=`<img src='${cross}'>`;
         setCount(++count);
         data[num]="x";
+        setCnt(cnt+1);
       }
-    
-    checkWin();
+      checkDRW(cnt+1);  
+      checkWin();
+  }
+  const checkDRW=(cnt)=>{
+    console.log("I was being called"+cnt);
+    if(cnt===9){
+      titleRef.current.innerHTML=`Its a Draw`;
+      console.log("the draw never lies");
+    }
   }
   const  checkWin=()=>{
     if(data[0]===data[1]&&data[1]===data[2]&&data[2]!==""){
@@ -69,7 +80,7 @@ let box_array=[box1,box2,box3,box4,box5,box6,box7,box8,box9];
     if(data[2]===data[4]&&data[4]===data[6]&&data[6]!==""){
       won(data[6]);
     }
-
+    
   }
   const won =(winner)=>{
     setLock(true);
@@ -86,7 +97,11 @@ let box_array=[box1,box2,box3,box4,box5,box6,box7,box8,box9];
     titleRef.current.innerHTML=`Tic-Tac-Toe Game using<span>React</span>`;
     box_array.map((e)=>{
       e.current.innerHTML="";
-    })
+    });
+     setCnt(0);
+    //  setCount(0);
+   console.log(cnt);
+    
   }
   return (
     <div>
